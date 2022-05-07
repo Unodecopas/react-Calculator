@@ -1,10 +1,11 @@
 import Wrapper from "./components/Wrapper"
+import Screen from "./components/Screen"
 
 const App = () => {
     return (
         <div className="App">
             <Wrapper>
-                <p>wrapper</p>
+                <Screen value='0' />
             </Wrapper>
         </div>
     )
