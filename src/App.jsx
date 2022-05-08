@@ -78,6 +78,14 @@ const App = () => {
             num: 0,
         })
     }
+    const invertClickHandler = () => {
+        setCalc({
+            ...calc,
+            num: calc.num ? calc.num * -1 : 0,
+            res: calc.res ? calc.res * -1 : 0,
+            sign: ""
+        })
+    }
     return (
         <div className="App">
             <Wrapper>
