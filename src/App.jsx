@@ -1,105 +1,115 @@
-import React, { useState } from 'react'
-import Wrapper from "./components/Wrapper"
-import Screen from "./components/Screen"
-import ButtonBox from "./components/ButtonBox"
-import Button from './components/Button'
+import React, { useState } from "react";
+import Wrapper from "./components/Wrapper";
+import Screen from "./components/Screen";
+import ButtonBox from "./components/ButtonBox";
+import Button from "./components/Button";
 
-const btnValues = [
+const btnValue = [
     ["C", "+-", "%", "/"],
-    [7, 8, 9, "x"],
+    [7, 8, 9, "X"],
     [4, 5, 6, "-"],
     [1, 2, 3, "+"],
     [0, ".", "="],
-]
+];
+const toLocaleString = (num) =>
+    String(num).replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, "$1 ");
+
+const removeSpaces = (num) => num.toString().replace(/\s/g, "");
+
 
 const App = () => {
     const [calc, setCalc] = useState({
-        sign: "",
+        sing: "",
         num: 0,
         res: 0,
     })
-
     const numClickHandler = (e) => {
-        e.preventDefault()
-        const value = e.target.innerHTML
-
-        if (calc.num.length < 16) {
+        e.preventDefault();
+        const value = e.target.innerHTML;
+        if (removeSpaces(calc.num).length < 16) {
             setCalc({
                 ...calc,
                 num:
                     calc.num === 0 && value === "0"
                         ? "0"
-                        : calc.num % 1 === 0
-                            ? Number(calc.num + value)
-                            : calc.num + value,
-                res: !calc.sing ? 0 : calc.res
+                        : removeSpaces(calc.num) % 1 === 0
+                            ? toLocaleString(Number(removeSpaces(calc.num + value)))
+                            : toLocaleString(calc.num + value),
+                res: !calc.sing ? 0 : calc.res,
+
             })
         }
     }
     const commaClickHandler = (e) => {
-        e.preventDefault()
-        const value = e.target.innerHTML
+        e.preventDefault();
+        const value = e.target.innerHTML;
         setCalc({
             ...calc,
-            num: !calc.num.toString().includes(".")
-                ? calc.num + value
-                : calc.num
+            num: !calc.num.toString().includes(".") ? calc.num + value : calc.num,
         })
     }
     const signClickHandler = (e) => {
-        e.preventDefault()
-        const value = e.target.innerHTML
+        e.preventDefault();
+        const value = e.target.innerHTML;
         setCalc({
             ...calc,
-            sign: value,
+            sing: value,
             res: !calc.res && calc.num ? calc.num : calc.res,
-            num: 0
+            num: 0,
         })
     }
     const equalsClickHandler = () => {
-        if (calc.num && calc.sign) {
-            const math = (a, b, sign) =>
-                sign === "+"
+        if (calc.sing && calc.num) {
+            const math = (a, b, sing) =>
+                sing === "+"
                     ? a + b
-                    : sign === "-"
+                    : sing === "-"
                         ? a - b
-                        : sign === "x"
+                        : sing === "X"
                             ? a * b
-                            : a / b
-        }
+                            : a / b;
 
-        setCalc({
-            ...calc,
-            res:
-                calc.num === "0" && calc.sing === "/"
-                    ? "No se puede dividir entre 0"
-                    : math(+calc.res, +calc.num, calc.sign),
-            sign: "",
-            num: 0,
-        })
+            setCalc({
+                ...calc,
+                res:
+                    calc.num === "0" && calc.sing === "/"
+                        ? "Can't divide with 0"
+                        : toLocaleString(
+                            math(
+                                Number(removeSpaces(calc.res)),
+                                Number(removeSpaces(calc.num)),
+                                calc.sing
+                            )
+                        ),
+                sing: "",
+                num: 0,
+            })
+        }
     }
     const invertClickHandler = () => {
         setCalc({
             ...calc,
-            num: calc.num ? calc.num * -1 : 0,
-            res: calc.res ? calc.res * -1 : 0,
-            sign: ""
+            num: calc.num ? toLocaleString(removeSpaces(calc.num)) * -1 : 0,
+            res: calc.res ? toLocaleString(removeSpaces(calc.res)) * -1 : 0,
+            sing: "",
         })
     }
     const percentClickHandler = () => {
-        let num = calc.num ? parseFloat(calc.num) : 0
-        let res = calc.res ? parseFloat(calc.res) : 0
+        let num = calc.num ? parseFloat(removeSpaces(calc.num)) : 0;
+        let res = calc.res ? parseFloat(removeSpaces(calc.res)) : 0;
         setCalc({
             ...calc,
             num: (num /= Math.pow(100, 1)),
             res: (res /= Math.pow(100, 1)),
-            sign: ""
+            sing: "",
         })
     }
     const resetClickHandler = () => {
         setCalc({
             ...calc,
-            num: 0, res: 0, sign: ""
+            sign: "",
+            num: 0,
+            res: 0,
         })
     }
     return (
@@ -108,7 +118,7 @@ const App = () => {
                 <Screen value={calc.num ? calc.num : calc.res} />
                 <ButtonBox>
                     {
-                        btnValues.flat().map((btn, i) => {
+                        btnValue.flat().map((btn, i) => {
                             return (
                                 <Button
                                     key={i}
@@ -123,7 +133,7 @@ const App = () => {
                                                     ? percentClickHandler
                                                     : btn === "="
                                                         ? equalsClickHandler
-                                                        : btn === "/" || btn === "x" || btn === "+" || btn === "-"
+                                                        : btn === "/" || btn === "X" || btn === "-" || btn === "+"
                                                             ? signClickHandler
                                                             : btn === "."
                                                                 ? commaClickHandler
@@ -138,5 +148,4 @@ const App = () => {
         </div>
     )
 }
-
 export default App
