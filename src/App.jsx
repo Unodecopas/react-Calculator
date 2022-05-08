@@ -56,6 +56,28 @@ const App = () => {
             num: 0
         })
     }
+    const equalsClickHandler = () => {
+        if (calc.num && calc.sign) {
+            const math = (a, b, sign) =>
+                sign === "+"
+                    ? a + b
+                    : sign === "-"
+                        ? a - b
+                        : sign === "x"
+                            ? a * b
+                            : a / b
+        }
+
+        setCalc({
+            ...calc,
+            res:
+                calc.num === "0" && calc.sing === "/"
+                    ? "No se puede dividir entre 0"
+                    : math(+calc.res, +calc.num, calc.sign),
+            sign: "",
+            num: 0,
+        })
+    }
     return (
         <div className="App">
             <Wrapper>
