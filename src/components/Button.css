@@ -3,7 +3,7 @@ button {
   background-color: #eae3db;
   font-size: 24px;
   color: rgb(9, 1, 44);
-  box-shadow: inset 0px 0px 15px #bd9e85;
+  box-shadow: inset 0px 0px 10px #bd9e85;
   font-weight: bold;
   cursor: pointer;
   border-radius: 5px;
