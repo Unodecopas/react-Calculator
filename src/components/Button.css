@@ -1,8 +1,9 @@
 button {
   border: none;
-  background-color: rgba(0, 0, 139, 0.61);
+  background-color: #eae3db;
   font-size: 24px;
-  color: white;
+  color: rgb(9, 1, 44);
+  box-shadow: inset 0px 0px 15px #bd9e85;
   font-weight: bold;
   cursor: pointer;
   border-radius: 5px;
@@ -10,11 +11,12 @@ button {
 }
 
 button:hover {
-  background-color: rgba(0, 0, 139, 0.781);
+  background-color: #bd9e85;
 }
 .equals {
   grid-column: 3/5;
   background-color: brown;
+  box-shadow: inset 0px 0px 10px #722626;
 }
 .equals:hover {
   background-color: rgb(192, 34, 34);
