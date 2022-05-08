@@ -96,6 +96,12 @@ const App = () => {
             sign: ""
         })
     }
+    const resetClickHandler = () => {
+        setCalc({
+            ...calc,
+            num: 0, res: 0, sign: ""
+        })
+    }
     return (
         <div className="App">
             <Wrapper>
